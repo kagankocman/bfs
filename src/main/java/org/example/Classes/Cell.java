@@ -1,20 +1,38 @@
 package org.example.Classes;
 
+class Point {
+    int x;
+    int y;
+    Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+enum Types {
+    Empty,
+    Tree,
+    Mountain,
+    Rock,
+    Wall,
+    Bird,
+    Bee,
+    Gold,
+    Silver,
+    Emerald,
+    Copper,
+    Road,
+    Character,
+}
 public class Cell {
-    private int objectType;
-    private int locationX;
-    private int locationY;
-    private boolean isBarrier;
-    private boolean isWrongWay;
+    Types objectType;
+    Point point;
     private boolean isVisited;
     private boolean isVisible;
     private boolean isSummer;
     private boolean isWinter;
 
-    public Cell (int x, int y) {
-        this.locationX = x;
-        this.locationY = y;
-        this.objectType = 0;
+    public Cell (Point p) {
+        this.point = p;
     }
 
     public void setSummer(boolean summer) {
@@ -29,5 +47,13 @@ public class Cell {
     }
     public boolean getWinter() {
         return this.isWinter;
+    }
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    public void setVisible(boolean visible) {
+        isVisible = visible;
     }
 }
