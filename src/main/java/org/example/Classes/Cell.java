@@ -30,6 +30,7 @@ public class Cell {
     private boolean isVisible;
     private boolean isSummer;
     private boolean isWinter;
+    private boolean isObstacle;
 
     public Cell (Point p) {
         this.point = p;
@@ -55,5 +56,21 @@ public class Cell {
 
     public void setVisible(boolean visible) {
         isVisible = visible;
+    }
+
+    public boolean isObstacle() {
+        return isObstacle;
+    }
+
+    public void setObstacle(boolean obstacle) {
+        isObstacle = obstacle;
+    }
+
+    public boolean isVisited() {
+        return isVisited;
+    }
+
+    public void setVisited(boolean visited) {
+        isVisited = visited;
     }
 }
