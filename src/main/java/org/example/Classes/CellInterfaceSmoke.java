@@ -7,6 +7,7 @@ import java.util.HashMap;
 public class CellInterfaceSmoke extends JPanel {
     private Cell[][] cells;
     private HashMap<Types, ImageIcon> iconMap;
+
     public CellInterfaceSmoke(Cell[][] cells) {
         this.cells = cells;
         this.iconMap = new HashMap<>();
@@ -36,7 +37,7 @@ public class CellInterfaceSmoke extends JPanel {
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells.length; j++) {
                 Cell cell = cells[i][j];
-                if (cell.isSmoked()) {
+                if (cell.isVisible()) {
                     if (cell.getWinter()) {
                         JButton button = new JButton();
                         button.setBackground(Color.white);
@@ -58,7 +59,9 @@ public class CellInterfaceSmoke extends JPanel {
                         button.setIcon(iconMap.get(cell.objectType));
                         add(button);
                     }
-                } else continue;
+                } else {
+                    add(new JButton());
+                }
             }
         }
 
@@ -71,7 +74,7 @@ public class CellInterfaceSmoke extends JPanel {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 800);
-        frame.add(new CellInterface(map));
+        frame.add(new CellInterfaceSmoke(map));
         frame.setVisible(true);
     }
 }

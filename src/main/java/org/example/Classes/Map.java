@@ -42,24 +42,54 @@ public class Map {
 
         map = createRoads(map, length);
 
-        character.setSmoked(false);
+        character.setVisible(true);
+
+        while (true) {
+            System.out.println("1- Haritayı göster");
+            System.out.println("2- Başlat");
+            System.out.printf("Seçim yapınız: ");
+
+            Scanner scanner1 = new Scanner(System.in);
+            int secim = scanner.nextInt();
+
+            if (secim == 1)
+                CellInterface.startUI(map);
+            else if (secim == 2) {
+                character.setVisible(true);
+
+                CellInterfaceSmoke.startUI(map);
+
+                collectGolds(map);
+
+                collectSilvers(map);
+
+                collectEmeralds(map);
+
+                collectCoppers(map);
+
+                System.out.println("Adım sayısı: " + App.moveCounter);
+            } else {
+                System.out.println("Geçerli bir değer giriniz!");
+//                Map map1 = new Map();
+            }
+        }
+
         // harita olusturuldu
-        CellInterface.startUI(map);
-        CellInterfaceSmoke.startUI(map);
+//        CellInterface.startUI(map);
+//        CellInterfaceSmoke.startUI(map);
 
         // Gold sandıkları en kısaya göre sıralanacak
         // Silver sandıkları en kısaya göre sıralanacak
-        collectGolds(map);
+//        collectGolds(map);
+////
+//        collectSilvers(map);
 //
-        collectSilvers(map);
+//        collectEmeralds(map);
+//
+//        collectCoppers(map);
 
-        collectEmeralds(map);
-
-        collectCoppers(map);
-
-        System.out.println("Adım sayısı: " + App.moveCounter);
         // haritanın son hali
-        CellInterface.startUI(map);
+//        CellInterface.startUI(map);
 
 
     }
@@ -84,7 +114,7 @@ public class Map {
                 Cell c = new Cell(p);
                 c.objectType = Types.Empty;
                 c.setSummer(true);
-                c.setSmoked(false);
+                c.setVisible(false);
                 map[i][j] = c;
             }
         }
@@ -94,7 +124,7 @@ public class Map {
                 Cell c = new Cell(p);
                 c.objectType = Types.Empty;
                 c.setWinter(true);
-                c.setSmoked(false);
+                c.setVisible(false);
                 map[i][j] = c;
             }
         }
@@ -477,6 +507,12 @@ public class Map {
         }
 
         road.setVisited(true);
+        road.setVisible(true);
+
+        CellInterfaceSmoke.startUI(map);
+
+//        CellInterfaceSmoke.startUI(map);
+
         character = road;
         return map;
     }
@@ -486,6 +522,11 @@ public class Map {
             List<Cell> shortestPath = findShortestPath(map, character, gold);
             for (Cell cell : shortestPath) {
                 map = updateMap(map, cell);
+                try {
+                    Thread.sleep(500); // 1 saniye bekleyin
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -495,6 +536,11 @@ public class Map {
             List<Cell> shortestPath = findShortestPath(map, character, silver);
             for (Cell cell : shortestPath) {
                 map = updateMap(map, cell);
+                try {
+                    Thread.sleep(500); // 1 saniye bekleyin
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -504,6 +550,11 @@ public class Map {
             List<Cell> shortestPath = findShortestPath(map, character, emerald);
             for (Cell cell : shortestPath) {
                 map = updateMap(map, cell);
+                try {
+                    Thread.sleep(500); // 1 saniye bekleyin
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -513,6 +564,11 @@ public class Map {
             List<Cell> shortestPath = findShortestPath(map, character, copper);
             for (Cell cell : shortestPath) {
                 map = updateMap(map, cell);
+                try {
+                    Thread.sleep(500); // 1 saniye bekleyin
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

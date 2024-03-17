@@ -27,7 +27,7 @@ public class Cell {
     Types objectType;
     Point point;
     private boolean isVisited;
-    private boolean isSmoked;
+    private boolean isVisible;
     private boolean isSummer;
     private boolean isWinter;
     private boolean isObstacle;
@@ -50,12 +50,12 @@ public class Cell {
         return this.isWinter;
     }
 
-    public boolean isSmoked() {
-        return isSmoked;
+    public boolean isVisible() {
+        return isVisible;
     }
 
-    public void setSmoked(boolean smoked) {
-        isSmoked = smoked;
+    public void setVisible(boolean visible) {
+        isVisible = visible;
     }
 
     public boolean isObstacle() {

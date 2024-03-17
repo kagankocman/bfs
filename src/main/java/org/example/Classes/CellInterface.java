@@ -1,4 +1,5 @@
 package org.example.Classes;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
@@ -6,6 +7,7 @@ import java.util.HashMap;
 public class CellInterface extends JPanel {
     private Cell[][] cells;
     private HashMap<Types, ImageIcon> iconMap;
+
     public CellInterface(Cell[][] cells) {
         this.cells = cells;
         this.iconMap = new HashMap<>();
@@ -17,7 +19,7 @@ public class CellInterface extends JPanel {
     }
 
     private void loadIcons() {
-        String path = "C:\\Users\\Kagan\\IdeaProjects\\Prolab2_1\\src\\main\\java\\org\\example\\Classes\\icons\\";
+        String path = "C:\\Users\\leven\\IdeaProjects\\Prolab2_1_UIadded\\src\\main\\java\\org\\example\\Classes\\icons\\";
         // Iconları yükle
         iconMap.put(Types.Bee, new ImageIcon(path + "bee.png"));
         iconMap.put(Types.Tree, new ImageIcon(path + "tree.png"));
@@ -31,6 +33,7 @@ public class CellInterface extends JPanel {
     }
 
     public void updatePanel() {
+
         removeAll();
 
         for (int i = 0; i < cells.length; i++) {
