@@ -5,6 +5,8 @@ import java.util.*;
 public class Map {
     List<Cell> golds = new ArrayList<>();
     List<Cell> silvers = new ArrayList<>();
+    List<Cell> emeralds = new ArrayList<>();
+    List<Cell> coppers = new ArrayList<>();
     Cell character;
 
     public Map() {
@@ -32,22 +34,34 @@ public class Map {
 
         map = createSilver(map, length);
 
+        map = createEmerald(map, length);
+
+        map = createCopper(map, length);
+
         map = createCharacter(map, length);
 
         map = createRoads(map, length);
-        printMap(map, length);
+
+        character.setSmoked(false);
+        // harita olusturuldu
+        CellInterface.startUI(map);
+        CellInterfaceSmoke.startUI(map);
 
         // Gold sandıkları en kısaya göre sıralanacak
         // Silver sandıkları en kısaya göre sıralanacak
-
         collectGolds(map);
-
+//
         collectSilvers(map);
 
-        printMap(map, length);
+        collectEmeralds(map);
+
+        collectCoppers(map);
+
+        System.out.println("Adım sayısı: " + App.moveCounter);
+        // haritanın son hali
+        CellInterface.startUI(map);
 
 
-//        CellInterface.startUI(map);
     }
 
     public boolean isAvailable(int x, int y, int alan_x, int alan_y, Cell[][] map) {
@@ -70,7 +84,7 @@ public class Map {
                 Cell c = new Cell(p);
                 c.objectType = Types.Empty;
                 c.setSummer(true);
-                c.setVisible(false);
+                c.setSmoked(false);
                 map[i][j] = c;
             }
         }
@@ -80,7 +94,7 @@ public class Map {
                 Cell c = new Cell(p);
                 c.objectType = Types.Empty;
                 c.setWinter(true);
-                c.setVisible(false);
+                c.setSmoked(false);
                 map[i][j] = c;
             }
         }
@@ -307,6 +321,56 @@ public class Map {
         return map;
     }
 
+    public Cell[][] createEmerald(Cell[][] map, int length) {
+        // zümrüt sandıkları oluşturup mape ekleyen fonksiyon
+
+        for (int i = 0; i < 4; i++) {
+            Random random = new Random();
+            int random_i = random.nextInt(length);
+            int random_j = random.nextInt(length);
+
+            boolean key;
+            if ((random_i < length) && ((random_j + 1) < length)) {
+                key = isAvailable(random_i, random_j, 1, 2, map);
+            } else continue;
+
+            if (key) {
+                for (int j = 0; j < 1; j++) {
+                    for (int k = 0; k < 2; k++) {
+                        map[j + random_i][k + random_j].objectType = Types.Emerald;
+                        emeralds.add(map[j + random_i][k + random_j]);
+                    }
+                }
+            }
+        }
+        return map;
+    }
+
+    public Cell[][] createCopper(Cell[][] map, int length) {
+        // bakır sandıkları oluşturup mape ekleyen fonksiyon
+
+        for (int i = 0; i < 4; i++) {
+            Random random = new Random();
+            int random_i = random.nextInt(length);
+            int random_j = random.nextInt(length);
+
+            boolean key;
+            if ((random_i < length) && ((random_j + 1) < length)) {
+                key = isAvailable(random_i, random_j, 1, 2, map);
+            } else continue;
+
+            if (key) {
+                for (int j = 0; j < 1; j++) {
+                    for (int k = 0; k < 2; k++) {
+                        map[j + random_i][k + random_j].objectType = Types.Copper;
+                        coppers.add(map[j + random_i][k + random_j]);
+                    }
+                }
+            }
+        }
+        return map;
+    }
+
     public Cell[][] createCharacter(Cell[][] map, int length) {
         // Karakteri oluşturup mape ekleyen fonksiyon
 
@@ -321,7 +385,6 @@ public class Map {
 
         character = map[random_i][random_j];
         map[random_i][random_j].objectType = Types.Character;
-//        map[random_i][random_j].isVisible();
 
         return map;
     }
@@ -333,48 +396,11 @@ public class Map {
 
                 if (map[i][j].objectType.equals(Types.Empty)) {
                     map[i][j].objectType = Types.Road;
-                    map[i][j].point.x = i;
-                    map[i][j].point.y = j;
                 }
             }
         }
         return map;
     }
-
-    public void printMap(Cell[][] map, int length) {
-        // Tüm mapi yazdıran fonksiyon
-        for (int i = 0; i < length; i++) {
-            for (int j = 0; j < length; j++) {
-
-                if (map[i][j].objectType.equals(Types.Tree)) {
-                    System.out.print("T");
-                } else if (map[i][j].objectType.equals(Types.Rock)) {
-                    System.out.print("R");
-                } else if (map[i][j].objectType.equals(Types.Wall)) {
-                    System.out.print("W");
-                } else if (map[i][j].objectType.equals(Types.Mountain)) {
-                    System.out.print("M");
-                } else if (map[i][j].objectType.equals(Types.Bird)) {
-                    System.out.print("B");
-                } else if (map[i][j].objectType.equals(Types.Bee)) {
-                    System.out.print("E");
-                } else if (map[i][j].objectType.equals(Types.Gold)) {
-                    System.out.print("G");
-                } else if (map[i][j].objectType.equals(Types.Character)) {
-                    System.out.print("C");
-                } else if (map[i][j].isObstacle()) {
-                    System.out.print("|");
-                } else if (map[i][j].isVisited()) {
-                    System.out.print("-");
-                } else {
-                    if (map[i][j].getSummer()) System.out.print("*");
-                    else System.out.print("x");
-                }
-            }
-            System.out.println();
-        }
-    }
-
 
     public static List<Cell> findShortestPath(Cell[][] labyrinth, Cell start, Cell end) {
 
@@ -429,15 +455,23 @@ public class Map {
 
     public Cell[][] updateMap(Cell[][] map, Cell road) {
 
+        App.moveCounter++;
+
         // Yolları işaretleyen fonksiyon
         if (road.objectType.equals(Types.Gold)) {
-            System.out.println("Altın sandık toplandı! (" + road.point.x + "," + road.point.y + ") ve (" +
-                    road.point.x + "," + (road.point.y + 1) + ")'da bulundu!");
+            App.GoldChestCollected(road);
             road.objectType = Types.Road;
             map[road.point.x][road.point.y + 1].objectType = Types.Road;
         } else if (road.objectType.equals(Types.Silver)) {
-            System.out.println("Gümüş sandık toplandı! (" + road.point.x + "," + road.point.y + ") ve (" +
-                    road.point.x + "," + (road.point.y + 1) + ")'da bulundu!");
+            App.SilverChestCollected(road);
+            road.objectType = Types.Road;
+            map[road.point.x][road.point.y + 1].objectType = Types.Road;
+        } else if (road.objectType.equals(Types.Emerald)) {
+            App.EmeraldChestCollected(road);
+            road.objectType = Types.Road;
+            map[road.point.x][road.point.y + 1].objectType = Types.Road;
+        } else if (road.objectType.equals(Types.Copper)) {
+            App.CopperChestCollected(road);
             road.objectType = Types.Road;
             map[road.point.x][road.point.y + 1].objectType = Types.Road;
         }
@@ -455,9 +489,28 @@ public class Map {
             }
         }
     }
+
     public void collectSilvers(Cell[][] map) {
         for (Cell silver : silvers) {
             List<Cell> shortestPath = findShortestPath(map, character, silver);
+            for (Cell cell : shortestPath) {
+                map = updateMap(map, cell);
+            }
+        }
+    }
+
+    public void collectEmeralds(Cell[][] map) {
+        for (Cell emerald : emeralds) {
+            List<Cell> shortestPath = findShortestPath(map, character, emerald);
+            for (Cell cell : shortestPath) {
+                map = updateMap(map, cell);
+            }
+        }
+    }
+
+    public void collectCoppers(Cell[][] map) {
+        for (Cell copper : coppers) {
+            List<Cell> shortestPath = findShortestPath(map, character, copper);
             for (Cell cell : shortestPath) {
                 map = updateMap(map, cell);
             }

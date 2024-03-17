@@ -1,12 +1,13 @@
 package org.example.Classes;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
-public class CellInterface extends JPanel {
+public class CellInterfaceSmoke extends JPanel {
     private Cell[][] cells;
     private HashMap<Types, ImageIcon> iconMap;
-    public CellInterface(Cell[][] cells) {
+    public CellInterfaceSmoke(Cell[][] cells) {
         this.cells = cells;
         this.iconMap = new HashMap<>();
         loadIcons();
@@ -18,7 +19,6 @@ public class CellInterface extends JPanel {
 
     private void loadIcons() {
         String path = "C:\\Users\\Kagan\\IdeaProjects\\Prolab2_1\\src\\main\\java\\org\\example\\Classes\\icons\\";
-        // Iconları yükle
         iconMap.put(Types.Bee, new ImageIcon(path + "bee.png"));
         iconMap.put(Types.Tree, new ImageIcon(path + "tree.png"));
         iconMap.put(Types.Mountain, new ImageIcon(path + "mountain.png"));
@@ -36,28 +36,29 @@ public class CellInterface extends JPanel {
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells.length; j++) {
                 Cell cell = cells[i][j];
-                if (cell.getWinter()) {
-                    JButton button = new JButton();
-                    button.setBackground(Color.white);
-                    if (cell.isObstacle()) {
-                        button.setBackground(Color.red);
-                    } else if (cell.isVisited()) {
-                        button.setBackground(Color.green);
+                if (cell.isSmoked()) {
+                    if (cell.getWinter()) {
+                        JButton button = new JButton();
+                        button.setBackground(Color.white);
+                        if (cell.isObstacle()) {
+                            button.setBackground(Color.red);
+                        } else if (cell.isVisited()) {
+                            button.setBackground(Color.green);
+                        }
+                        button.setIcon(iconMap.get(cell.objectType));
+                        add(button);
+                    } else {
+                        JButton button = new JButton();
+                        button.setBackground(Color.yellow);
+                        if (cell.isObstacle()) {
+                            button.setBackground(Color.red);
+                        } else if (cell.isVisited()) {
+                            button.setBackground(Color.green);
+                        }
+                        button.setIcon(iconMap.get(cell.objectType));
+                        add(button);
                     }
-                    button.setIcon(iconMap.get(cell.objectType));
-                    add(button);
-                } else {
-                    JButton button = new JButton();
-                    button.setBackground(Color.yellow);
-                    if (cell.isObstacle()) {
-                        button.setBackground(Color.red);
-                    } else if (cell.isVisited()) {
-                        button.setBackground(Color.green);
-                    }
-                    button.setIcon(iconMap.get(cell.objectType));
-                    add(button);
-                }
-
+                } else continue;
             }
         }
 
@@ -74,4 +75,5 @@ public class CellInterface extends JPanel {
         frame.setVisible(true);
     }
 }
+
 
