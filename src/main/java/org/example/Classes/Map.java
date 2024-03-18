@@ -47,14 +47,19 @@ public class Map {
         while (true) {
             System.out.println("1- Haritayı göster");
             System.out.println("2- Başlat");
+            System.out.println("3- En kısa yolu bul");
+            System.out.println("4- Çıkış");
             System.out.printf("Seçim yapınız: ");
 
             Scanner scanner1 = new Scanner(System.in);
-            int secim = scanner.nextInt();
+            int secim = scanner1.nextInt();
 
             if (secim == 1)
                 CellInterface.startUI(map);
             else if (secim == 2) {
+
+                CellInterface.closeUI();
+
                 character.setVisible(true);
 
                 CellInterfaceSmoke.startUI(map);
@@ -68,30 +73,36 @@ public class Map {
                 collectCoppers(map);
 
                 System.out.println("Adım sayısı: " + App.moveCounter);
+            } else if (secim == 3) {
+                List<Cell> golds = collectGoldsWithoutUI(map);
+
+                List<Cell> silvers = collectSilversWithoutUI(map);
+
+                List<Cell> emeralds = collectEmeraldsWithoutUI(map);
+
+                List<Cell> coppers = collectCoppersWithoutUI(map);
+
+                for (Cell gold : golds) {
+                    System.out.println("(" + gold.point.x + ", " + gold.point.y + ")");
+                }
+
+                for (Cell silver : silvers) {
+                    System.out.println("(" + silver.point.x + ", " + silver.point.y + ")");
+                }
+
+                for (Cell emerald : emeralds) {
+                    System.out.println("(" + emerald.point.x + ", " + emerald.point.y + ")");
+                }
+
+                for (Cell copper : coppers) {
+                    System.out.println("(" + copper.point.x + ", " + copper.point.y + ")");
+                }
+            } else if (secim == 4) {
+                break;
             } else {
                 System.out.println("Geçerli bir değer giriniz!");
-//                Map map1 = new Map();
             }
         }
-
-        // harita olusturuldu
-//        CellInterface.startUI(map);
-//        CellInterfaceSmoke.startUI(map);
-
-        // Gold sandıkları en kısaya göre sıralanacak
-        // Silver sandıkları en kısaya göre sıralanacak
-//        collectGolds(map);
-////
-//        collectSilvers(map);
-//
-//        collectEmeralds(map);
-//
-//        collectCoppers(map);
-
-        // haritanın son hali
-//        CellInterface.startUI(map);
-
-
     }
 
     public boolean isAvailable(int x, int y, int alan_x, int alan_y, Cell[][] map) {
@@ -105,7 +116,6 @@ public class Map {
         }
         return true;
     }
-
     public Cell[][] createMap(Cell[][] map, int length) {
         // Tüm mapi oluşturan fonksiyonlar
         for (int i = 0; i < length; i++) {
@@ -130,7 +140,6 @@ public class Map {
         }
         return map;
     }
-
     public Cell[][] createTrees(Cell[][] map, int length) {
         // Ağaçları oluşturup mape ekleyen fonksiyon
         for (int i = 0; i < (length / 8); i++) {
@@ -165,7 +174,6 @@ public class Map {
         }
         return map;
     }
-
     public Cell[][] createRocks(Cell[][] map, int length) {
         // Kayaları oluşturup mape ekleyen fonksiyon
         for (int i = 0; i < (length / 8); i++) {
@@ -196,7 +204,6 @@ public class Map {
         }
         return map;
     }
-
     public Cell[][] createWalls(Cell[][] map, int length) {
         // Duvarları oluşturup mape ekleyen fonksiyon
         for (int i = 0; i < (length / 15); i++) {
@@ -219,7 +226,6 @@ public class Map {
         }
         return map;
     }
-
     public Cell[][] createMountains(Cell[][] map, int length) {
         // Dağları oluşturup mape ekleyen fonksiyon
         for (int i = 0; i < (length / 20); i++) {
@@ -242,7 +248,6 @@ public class Map {
         }
         return map;
     }
-
     public Cell[][] createBirds(Cell[][] map, int length) {
         // Kuşları oluşturup mape ekleyen fonksiyon
         for (int i = 0; i < 2; i++) {
@@ -271,7 +276,6 @@ public class Map {
         }
         return map;
     }
-
     public Cell[][] createBees(Cell[][] map, int length) {
         // Arıları oluşturup mape ekleyen fonksiyon
         for (int i = 0; i < 2; i++) {
@@ -300,10 +304,8 @@ public class Map {
         }
         return map;
     }
-
     public Cell[][] createGold(Cell[][] map, int length) {
         // Altın sandıkları oluşturup mape ekleyen fonksiyon
-
         for (int i = 0; i < 4; i++) {
             Random random = new Random();
             int random_i = random.nextInt(length);
@@ -325,10 +327,8 @@ public class Map {
         }
         return map;
     }
-
     public Cell[][] createSilver(Cell[][] map, int length) {
         // Gümüş sandıkları oluşturup mape ekleyen fonksiyon
-
         for (int i = 0; i < 4; i++) {
             Random random = new Random();
             int random_i = random.nextInt(length);
@@ -350,7 +350,6 @@ public class Map {
         }
         return map;
     }
-
     public Cell[][] createEmerald(Cell[][] map, int length) {
         // zümrüt sandıkları oluşturup mape ekleyen fonksiyon
 
@@ -375,7 +374,6 @@ public class Map {
         }
         return map;
     }
-
     public Cell[][] createCopper(Cell[][] map, int length) {
         // bakır sandıkları oluşturup mape ekleyen fonksiyon
 
@@ -400,7 +398,6 @@ public class Map {
         }
         return map;
     }
-
     public Cell[][] createCharacter(Cell[][] map, int length) {
         // Karakteri oluşturup mape ekleyen fonksiyon
 
@@ -418,7 +415,6 @@ public class Map {
 
         return map;
     }
-
     public Cell[][] createRoads(Cell[][] map, int length) {
         // Yolları ekleyen fonksiyon
         for (int i = 0; i < length; i++) {
@@ -431,7 +427,6 @@ public class Map {
         }
         return map;
     }
-
     public static List<Cell> findShortestPath(Cell[][] labyrinth, Cell start, Cell end) {
 
         int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
@@ -461,7 +456,6 @@ public class Map {
                         !(labyrinth[nextX][nextY].objectType.equals(Types.Bee)) &&
                         !parent.containsKey(labyrinth[nextX][nextY])) {
                     Cell next = labyrinth[nextX][nextY];
-//                    labyrinth[nextX][nextY].setVisited(true);
                     queue.add(next);
                     parent.put(next, current);
                 }
@@ -482,12 +476,10 @@ public class Map {
         Collections.reverse(path);
         return path;
     }
-
     public Cell[][] updateMap(Cell[][] map, Cell road) {
 
         App.moveCounter++;
 
-        // Yolları işaretleyen fonksiyon
         if (road.objectType.equals(Types.Gold)) {
             App.GoldChestCollected(road);
             road.objectType = Types.Road;
@@ -505,71 +497,112 @@ public class Map {
             road.objectType = Types.Road;
             map[road.point.x][road.point.y + 1].objectType = Types.Road;
         }
-
         road.setVisited(true);
-        road.setVisible(true);
+        road.objectType = Types.Character;
+
+        for (int i = -3; i <= 3; i++) {
+            if (road.point.x + i < map.length && road.point.x + i > 0) {
+
+                map[road.point.x + i][road.point.y].setVisible(true);
+                if (!(map[road.point.x + i][road.point.y].objectType.equals(Types.Road)) &&
+                        !(map[road.point.x + i][road.point.y].objectType.equals(Types.Character))) {
+                    App.discoverItem(map[road.point.x + i][road.point.y]);
+                }
+            }
+        }
+        for (int i = -3; i <= 3; i++) {
+            if (road.point.y + i < map.length && road.point.y + i > 0) {
+                map[road.point.x][road.point.y + i].setVisible(true);
+                if (!(map[road.point.x][road.point.y + i].objectType.equals(Types.Road)) &&
+                        !(map[road.point.x][road.point.y + i].objectType.equals(Types.Character))) {
+                    App.discoverItem(map[road.point.x][road.point.y + i]);
+                }
+            }
+        }
 
         CellInterfaceSmoke.startUI(map);
-
-//        CellInterfaceSmoke.startUI(map);
 
         character = road;
         return map;
     }
-
     public void collectGolds(Cell[][] map) {
         for (Cell gold : golds) {
             List<Cell> shortestPath = findShortestPath(map, character, gold);
             for (Cell cell : shortestPath) {
                 map = updateMap(map, cell);
                 try {
-                    Thread.sleep(500); // 1 saniye bekleyin
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }
     }
-
     public void collectSilvers(Cell[][] map) {
         for (Cell silver : silvers) {
             List<Cell> shortestPath = findShortestPath(map, character, silver);
             for (Cell cell : shortestPath) {
                 map = updateMap(map, cell);
                 try {
-                    Thread.sleep(500); // 1 saniye bekleyin
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }
     }
-
     public void collectEmeralds(Cell[][] map) {
         for (Cell emerald : emeralds) {
             List<Cell> shortestPath = findShortestPath(map, character, emerald);
             for (Cell cell : shortestPath) {
                 map = updateMap(map, cell);
                 try {
-                    Thread.sleep(500); // 1 saniye bekleyin
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }
     }
-
     public void collectCoppers(Cell[][] map) {
         for (Cell copper : coppers) {
             List<Cell> shortestPath = findShortestPath(map, character, copper);
             for (Cell cell : shortestPath) {
                 map = updateMap(map, cell);
                 try {
-                    Thread.sleep(500); // 1 saniye bekleyin
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }
+    }
+    public List<Cell> collectGoldsWithoutUI(Cell[][] map) {
+        List<Cell> shortestPath = new ArrayList<>();
+        for (Cell gold : golds) {
+            shortestPath = findShortestPath(map, character, gold);
+        }
+        return shortestPath;
+    }
+    public List<Cell> collectSilversWithoutUI(Cell[][] map) {
+        List<Cell> shortestPath = new ArrayList<>();
+        for (Cell silver : silvers) {
+            shortestPath = findShortestPath(map, character, silver);
+        }
+        return shortestPath;
+    }
+    public List<Cell> collectEmeraldsWithoutUI(Cell[][] map) {
+        List<Cell> shortestPath = new ArrayList<>();
+        for (Cell emerald : emeralds) {
+            shortestPath = findShortestPath(map, character, emerald);
+        }
+        return shortestPath;
+    }
+    public List<Cell> collectCoppersWithoutUI(Cell[][] map) {
+        List<Cell> shortestPath = new ArrayList<>();
+        for (Cell copper : coppers) {
+            shortestPath = findShortestPath(map, character, copper);
+        }
+        return shortestPath;
     }
 }

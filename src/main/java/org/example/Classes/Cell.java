@@ -42,34 +42,27 @@ public class Cell {
     public boolean getSummer() {
         return this.isSummer;
     }
-
     public void setWinter(boolean winter) {
         isWinter = winter;
     }
     public boolean getWinter() {
         return this.isWinter;
     }
-
     public boolean isVisible() {
         return isVisible;
     }
-
     public void setVisible(boolean visible) {
         isVisible = visible;
     }
-
     public boolean isObstacle() {
         return isObstacle;
     }
-
     public void setObstacle(boolean obstacle) {
         isObstacle = obstacle;
     }
-
     public boolean isVisited() {
         return isVisited;
     }
-
     public void setVisited(boolean visited) {
         isVisited = visited;
     }

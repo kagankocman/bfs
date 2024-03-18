@@ -5,6 +5,7 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class CellInterfaceSmoke extends JPanel {
+    static JFrame frame = new JFrame();
     private Cell[][] cells;
     private HashMap<Types, ImageIcon> iconMap;
 
@@ -17,9 +18,8 @@ public class CellInterfaceSmoke extends JPanel {
 
         updatePanel();
     }
-
     private void loadIcons() {
-        String path = "C:\\Users\\Kagan\\IdeaProjects\\Prolab2_1\\src\\main\\java\\org\\example\\Classes\\icons\\";
+        String path = "C:\\Users\\Kagan\\IdeaProjects\\Prolab2_1_UIadded\\src\\main\\java\\org\\example\\Classes\\icons\\";
         iconMap.put(Types.Bee, new ImageIcon(path + "bee.png"));
         iconMap.put(Types.Tree, new ImageIcon(path + "tree.png"));
         iconMap.put(Types.Mountain, new ImageIcon(path + "mountain.png"));
@@ -29,8 +29,9 @@ public class CellInterfaceSmoke extends JPanel {
         iconMap.put(Types.Silver, new ImageIcon(path + "silver.png"));
         iconMap.put(Types.Rock, new ImageIcon(path + "rock.png"));
         iconMap.put(Types.Character, new ImageIcon(path + "hero.png"));
+        iconMap.put(Types.Copper, new ImageIcon(path + "copper.png"));
+        iconMap.put(Types.Emerald, new ImageIcon(path + "diamond.png"));
     }
-
     public void updatePanel() {
         removeAll();
 
@@ -68,12 +69,11 @@ public class CellInterfaceSmoke extends JPanel {
         revalidate();
         repaint();
     }
-
     public static void startUI(Cell[][] map) {
 
-        JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 800);
+        frame.setSize(870, 870);
+        frame.setLocation(350,0);
         frame.add(new CellInterfaceSmoke(map));
         frame.setVisible(true);
     }
